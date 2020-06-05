@@ -1,33 +1,43 @@
 import React, {useState, useEffect} from 'react'
-import { Classroom } from "./views";
+import Classroom from './Classroom';
+import { connect } from "react-redux";
+import { PropTypes } from "prop-types";
+import { loadClassrooms } from "../actions/classActions";
 
 const Body = () => {
     //javascript code
-    const [counterState, setCounterState] = useState({
-        counter: 0,
-        title: "title"
-    }) 
 
-    const increment = (event) => {
+    const [formState, setFormState] = useState({
+        classroomName: "",
+        classroom: null 
+    })
+
+    const searchClass = (event) => {
         event.preventDefault()
-        setCounterState(counterState => {
-            return {
-                counter: counterState.counter+1,
-                title: counterState.title + "couter is on " + " " + counterState.counter
-            }
-        })
+        console.log("search clicked")
+    }
+
+    const onChange = (event) => {
+        event.persist()
+        const name = event.target.name
+        setFormState(formState => ({
+            ...formState,
+            [name]: event.target.value
+        }))
     }
 
     return (
         //jsxcode
         <div>
-            <h1>{counterState.title}</h1>
-                {   
-                <div>
-                    {counterState.counter}
-                    <button onClick={increment}>Increment</button>
-                </div>    
-                }
+            <form>
+                <input
+                    type="text"
+                    name="classroomName"
+                    value={formState.classroomName}
+                    onChange={onChange}
+                />
+                <button onClick={searchClass}>Search</button>
+            </form>
         </div>
     )
 }
