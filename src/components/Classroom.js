@@ -1,12 +1,14 @@
 import React from 'react'
 
 
-const Classroom = () => {
+const Classroom = (props) => {
     //javascript code
+    const {classroom} = props
     return (
         //jsxcode
         <div>
-            <h1>Classroom</h1>
+            <h1>{classroom.name}</h1>
+            <h3>{classroom.type}</h3>
         </div>
     )
 }

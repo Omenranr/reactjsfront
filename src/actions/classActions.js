@@ -9,14 +9,15 @@ import {
 // case2 : param =>
 // case3 : (param1, param2, ...)
 
-export const loadClassrooms = () => (dispatch, getState) => {
+export const loadClassrooms = (classroomName) => (dispatch, getState) => {
     //PUT CLASSROOMS STATE TO LOADING
+    console.log("searching data", classroomName)
     dispatch({type: CLASS_LOADING})
-    axios.get('http://localhost:3001/class/selectAll', tokenConfig(getState))
-    .then(data => {
+    axios.post('http://localhost:3001/class/selectByName', {classroomName: classroomName}, tokenConfig(getState))
+    .then(result => {
         dispatch({
             type: CLASS_LOADED,
-            payload: data
+            payload: result.data
         })
     })
     .catch(err => {
