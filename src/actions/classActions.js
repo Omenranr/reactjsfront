@@ -25,9 +25,22 @@ export const loadClassrooms = (classroomName) => (dispatch, getState) => {
     })
 }
 
+export const loadUser = (userData) => (dispatch, getState) => {
+    dispatch({type: USER_LOADING})
+    axios.post('http://localhost:3001/auth/loadUser', userData, tokenConfig(getState))
+    .then(response => {
+        dispatch({
+            type: USER_LOADED,
+            payload: response.data
+        })
+    })
+    .catch(err => {
+        dispatch({type: USER_LOAD_FAIL})
+    })
+}
+
 
 export const tokenConfig = getState => {
-
     const config = {
         headers: {
             "Content-type": "application/json",

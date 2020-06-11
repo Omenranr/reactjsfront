@@ -2,15 +2,26 @@ import React, {useState, useEffect} from 'react'
 import Classroom from './Classroom';
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
-import { loadClassrooms } from "../actions/classActions";
+import { loadClassrooms, loadUser } from "../actions/classActions";
+
+
 
 const Body = (props) => {
     //javascript code
     const {classroom, loadClassrooms} = props
+
     const [formState, setFormState] = useState({
         classroomName: "",
         classroom: null
     })
+
+    //changing the state
+    // setFormState(prevState => ({
+    //     ...prevState,
+    //     classroom: {name: "class1"}
+    // }))
+
+    // const classroom = formState.classroom
 
     const searchClass = (event) => {
         event.preventDefault()
@@ -21,13 +32,17 @@ const Body = (props) => {
     useEffect(() => {
         if(props.classroom !== null) {
             console.log(props.classroom)
-            setFormState(formState => ({
-                ...formState,
+            setFormState(prevFormState => ({
+                ...prevFormState,
                 classroomName: "",
                 classroom: props.classroom
             }))
         }
     }, [props.classroom])
+
+    // useEffect(() => {
+    //     //code to get users data and put it in the state
+    // }, [])
 
     const onChange = (event) => {
         event.persist()
@@ -35,6 +50,7 @@ const Body = (props) => {
         setFormState(formState => ({
             ...formState,
             [name]: event.target.value
+            //[classroomName]: event
         }))
         console.log(formState)
     }
@@ -50,7 +66,7 @@ const Body = (props) => {
                     name="classroomName"
                     value={formState.classroomName}
                     onChange={onChange}
-                />
+                /> 
                 <button>Search</button>
             </form>
             {
@@ -64,8 +80,20 @@ const Body = (props) => {
 }
 
 const mapStateToProps = state => ({
-    loadClassrooms: PropTypes.func.isRequired,
-    classroom: state.classrooms.classrooms
+    // what functions we want from our actions (we need to import them)
+    loadClassrooms: PropTypes.func.isRequired, // we are defining the function we want from the classActions.js
+    // loadUser: PropTypes.func.isRequired,
+    //what we want from the store
+    classroom: state.classrooms.classrooms, // getting the reducer data (classReducer.js)
+    // isLoading: state.classrooms.isLoading,
 })
 
+// state = {
+    // classrooms: {classrooms data coming reducer}
+// }
+
+//connect is a function : it's going to connect the store + actions => props passed to the component
 export default connect(mapStateToProps, {loadClassrooms})(Body)
+
+//normal export
+// export default Body
