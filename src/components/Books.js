@@ -14,10 +14,9 @@ const Books = (props) => {
 
     
 
-    const loadBooks = (event) => {
-        // event.preventDefault()
+    const getBooks = () => {
         console.log("load clicked")
-        getBooks()
+        loadBooks()
     }
 
     useEffect(() => {
@@ -64,7 +63,7 @@ const Books = (props) => {
             </form> */}
             {
                 formState.books !== null ?
-                <p>{formState.books}</p>
+                <p>{JSON.stringify(formState.books)}</p>
                 :
                 ""
             }

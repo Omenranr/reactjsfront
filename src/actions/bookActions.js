@@ -9,6 +9,7 @@ export const loadBooks = () => (dispatch, getState) => {
     dispatch({type: BOOKS_LOADING})
     axios.get('http://localhost:3001/class/selectAll', tokenConfig(getState))
     .then(response => {
+        console.log(response)
         dispatch({
             type: BOOKS_LOADED,
             payload: response.data
