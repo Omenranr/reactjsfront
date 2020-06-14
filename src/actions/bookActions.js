@@ -16,11 +16,10 @@ export const loadBooks = () => (dispatch, getState) => {
         })
     })
     .catch(error => {
+        //we need later to call error function
         dispatch({type: BOOKS_LOAD_FAIL})
     })
 }
-
-
 
 export const tokenConfig = getState => {
     const config = {

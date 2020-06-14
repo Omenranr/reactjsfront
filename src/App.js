@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import { Header, Body, Footer, Books } from './components'
+import { Header, Body, Footer, Books, Signin } from './components'
 import { Provider } from "react-redux";
 
 import store from "./store";
@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <Provider store={store}>
         <Header /><br />
-        <Books /><br />
+        <Signin /><br />
         <Footer />
       </Provider>
     </div>
