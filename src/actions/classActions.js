@@ -2,7 +2,8 @@ import axios from 'axios'
 import { 
     CLASS_LOADED,
     CLASS_LOADING,
-    CLASS_LOAD_FAIL
+    CLASS_LOAD_FAIL,
+    CLASS_ADDED
 } from "./types";
 
 // case1 : () =>
@@ -24,6 +25,22 @@ export const loadClassrooms = (classroomName) => (dispatch, getState) => {
         console.log("error", err)
     })
 }
+
+export const addClassroom = (values) => (dispatch, getState) => {
+    console.log("values", values)
+    const body = JSON.stringify(values)
+    axios.post("http://localhost:3001/class/insert", body, tokenConfig(getState))
+    .then(result => {
+        dispatch({type: CLASS_ADDED, payload: result.data})
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+
+
+
+
 
 // export const loadUser = (userData) => (dispatch, getState) => {
 //     dispatch({type: USER_LOADING})

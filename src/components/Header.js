@@ -6,7 +6,7 @@ const Header = () => {
     return (
         //jsxcode
         <div>
-            <h1>Header</h1>
+            <h1>Header Send Response</h1>
         </div>
     )
 }

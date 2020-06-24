@@ -1,99 +1,70 @@
 import React, {useState, useEffect} from 'react'
-import Classroom from './Classroom';
-import { connect } from "react-redux";
-import { PropTypes } from "prop-types";
-import { loadClassrooms, loadUser } from "../actions/classActions";
-
-
+import { connect } from "react-redux"
+import { PropTypes } from "prop-types"
+import AddClassForm from "./AddClassForm"
+import { addClassroom } from "../actions/classActions"
 
 const Body = (props) => {
     //javascript code
-    const {classroom, loadClassrooms} = props
-
     const [formState, setFormState] = useState({
-        classroomName: "",
-        classroom: null
+        values: {},
+        isAdded: false,
+        classAdded: {}
     })
 
-    //changing the state
-    // setFormState(prevState => ({
-    //     ...prevState,
-    //     classroom: {name: "class1"}
-    // }))
-
-    // const classroom = formState.classroom
-
-    const searchClass = (event) => {
-        event.preventDefault()
-        console.log("search clicked")
-        loadClassrooms(formState.classroomName)
-    }
+    const { addClassroom, classAdded } = props
 
     useEffect(() => {
-        if(props.classroom !== null) {
-            console.log(props.classroom)
-            setFormState(prevFormState => ({
-                ...prevFormState,
-                classroomName: "",
-                classroom: props.classroom
+        if(classAdded !== null) {
+            setFormState(prev => ({
+                ...prev,
+                classAdded: classAdded,
+                isAdded: true
             }))
         }
-    }, [props.classroom])
-
-    // useEffect(() => {
-    //     //code to get users data and put it in the state
-    // }, [])
+    }, [classAdded])
 
     const onChange = (event) => {
         event.persist()
         const name = event.target.name
         setFormState(formState => ({
             ...formState,
-            [name]: event.target.value
-            //[classroomName]: event
+            values:{
+                ...formState.values,
+                [name]: event.target.value
+            }
         }))
         console.log(formState)
+    }
+
+    const onAddFormSubmit = (event) => {
+        event.preventDefault()
+        console.log("form submited")
+        console.log(formState.values)
+        addClassroom(formState.values)
     }
 
     return (
         //jsxcode
         <div>
-            <form
-                onSubmit={searchClass}
-            >
-                <input
-                    type="text"
-                    name="classroomName"
-                    value={formState.classroomName}
-                    onChange={onChange}
-                /> 
-                <button>Search</button>
-            </form>
-            {
-                formState.classroom !== null ?
-                <Classroom classroom={formState.classroom}/>
-                :
-                <h3>No class loaded</h3>
-            }
+            <AddClassForm 
+                onChange={onChange} 
+                onAddFormSubmit={onAddFormSubmit} 
+                formState={formState}
+            />
+            <div>{formState.isAdded ? formState.classAdded.name : "Not added yet"}</div>
         </div>
     )
 }
 
 const mapStateToProps = state => ({
     // what functions we want from our actions (we need to import them)
-    loadClassrooms: PropTypes.func.isRequired, // we are defining the function we want from the classActions.js
-    // loadUser: PropTypes.func.isRequired,
-    //what we want from the store
-    classroom: state.classrooms.classrooms, // getting the reducer data (classReducer.js)
-    // isLoading: state.classrooms.isLoading,
+    addClassroom: PropTypes.func.isRequired, // we are defining the function we want from the classActions.js
+    classAdded: state.classrooms.classAdded,
 })
 
-// state = {
-    // classrooms: {classrooms data coming reducer}
-// }
-
 //connect is a function : it's going to connect the store + actions => props passed to the component
-export default connect(mapStateToProps, {loadClassrooms})(Body)
+export default connect(mapStateToProps, {addClassroom})(Body)
 
 //normal export
 // export default Body

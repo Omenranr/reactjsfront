@@ -1,12 +1,14 @@
 import { 
     CLASS_LOADED,
     CLASS_LOADING,
-    CLASS_LOAD_FAIL
+    CLASS_LOAD_FAIL,
+    CLASS_ADDED
  } from "../actions/types";
 
 const initialState = {
      classrooms: null,
      isLoading: false,
+     classAdded: null,
 }
 
 
@@ -28,6 +30,11 @@ const initialState = {
             return {
                 isLoading: false,
                 classrooms: null
+            }
+        case CLASS_ADDED:
+            return {
+                ...state,
+                classAdded: action.payload
             }
         default:
             return state

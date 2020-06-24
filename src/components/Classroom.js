@@ -1,5 +1,5 @@
 import React from 'react'
-
+import AddClassForm from "./AddClassForm";
 
 const Classroom = (props) => {
     //javascript code
